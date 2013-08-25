@@ -14,7 +14,7 @@
   ],
   "main": "./index.js",
   "scripts": {
-    "pretest": "jshint --verbose --config test/jshint.json ./*js test/*js",
+    "pretest": "jshint --verbose --config test/jshint.json ./*js test/*js example/*js",
     "test": "make test"
   },
   "dependencies": {
@@ -23,7 +23,8 @@
   "devDependencies": {
     "mocha": "*",
     "jshint": "*",
-    "chai": "*"
+    "chai": "*",
+    "chai-common": "*"
   },
   "engines": {
     "node": ">=0.4.x"
