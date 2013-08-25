@@ -13,7 +13,7 @@ var allPat = /[[{'"\/\\}\]]/g;
 // Used by `findMatchingQuote()`.
 var quotePat = /['"\/\\]/g;
 // "not" is not a literal, but it's important nevertheless, so we include it.
-var literalPat = /((^| )(\d[\d.]*|true|false|null|undefined|not))(?=( |$))/g;
+var literalPat = /((^| )(\d[\d.]*|true|false|null|undefined|not))(?=([ ,.;:?!]|$))/g;
 
 // Supports any type of bracket.
 function findClosingBracket(msg, opening, closing, start) {
