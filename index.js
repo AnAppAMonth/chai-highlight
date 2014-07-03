@@ -140,6 +140,11 @@ function procMsg(msg) {
 function wrapper(error, ctx) {
     if (error) {
         error.message = procMsg(error.message);
+        // Some frameworks use the first line of error.stack instead of
+        // error.message, so change that too
+        var lines = error.stack.split('\n');
+        lines[0] = lines[0].split(':')[0] + ': ' + error.message;
+        error.stack = lines.join('\n');
     }
 }
 
