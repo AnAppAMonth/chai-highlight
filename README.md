@@ -1,12 +1,17 @@
 chai-highlight
 ==============
 
-*Chai.js* plugin to highlight values in error messages *Chai* generates.
+*Chai.js* plugin to highlight values in error messages and NPM module names in
+stack traces that *Chai* generates.
 
 This plugin uses best efforts to identify objects, arrays, strings, regular expressions,
-numbers, and other important elements comprising a *Chai* error message (eg, the word
-*not*), and highlight them so you can easily differentiate them from surrounding text
-and inspect and compare their values.
+numbers, and other important elements (eg, the word *not*) comprising a *Chai*
+error message, and highlight them so you can easily differentiate them from
+surrounding text and inspect and compare their values.
+
+This plugin also marks NPM module names in the accompanied stack traces, so that
+you can see at a glance whether each source file in the stack trace is your own
+code or from a third-party module, and in the latter case, which module.
 
 Example
 =======
@@ -42,6 +47,7 @@ chai.use(highlight);
 
 // Set custom styles, use HTML instead of ANSI color codes.
 highlight.setStyles('<b>', '</b>', /<b>/);
+highlight.setMarkStyles('<i>', '</i>');
 
 // Use Chai as before.
 expect(1).to.be.ok;
@@ -51,12 +57,18 @@ expect(1).to.be.ok;
 Custom Styles
 =============
 
-The default style is **bold**, which is a sensible default because it works well with
-different color schemes. But you can easily change it to anything you want, without
-being limited to ANSI color codes at all.
+For value highlights in error messages, the default style is **bold**, which is
+a sensible default because it works well with different color schemes. But you
+can easily change it to anything you want, without being limited to ANSI color
+codes at all.
 
-Custom styles are set using the `setStyles()` method, as illustrated in the above
-example. This method takes three arguments:
+For NPM module name markings in stack traces, the default style is a cyan
+background.
+
+Custom styles are set using the `setStyles()` and `setMarkStyles()` methods, as
+illustrated in the above example.
+
+The `setStyles()` method takes three arguments:
 
 1. highlightStyle. The style used by highlighted text. The default is `'\x1B[1m'`.
 
@@ -67,8 +79,15 @@ text. The default is `'\x1B[22m'`.
 don't style it. This is intended to not style error messages already styled by assertion
 authors. The default is `/\x1B\[/`.
 
-You can set any number of these in a `setStyles()` call, if a falsy value is passed in,
-that parameter isn't changed.
+The `setMarkStyles()` method takes two arguments:
+
+1. markStyle. The style used by marked NPM module names. The default is `'\x1B[46m'`.
+
+2. restoreMarkStyle. The sequence used to restore the style to the default for non-marked
+text. The default is `'\x1B[49m'`.
+
+You can set any number of these in a `setStyles()` or `setMarkStyles()` call, if
+a falsy value is passed in, that parameter isn't changed.
 
 
 Caveats
