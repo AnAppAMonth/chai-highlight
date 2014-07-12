@@ -5,6 +5,9 @@ var adhoc = require('chai-adhoc'),
 var highlightStyle = '\x1B[1m';
 var restoreStyle = '\x1B[22m';
 
+var markStyle = '\x1B[46m';
+var restoreMarkStyle = '\x1B[49m';
+
 var stylePat = /\x1B\[/;
 // The preceeding space makes sure we don't take, eg, a "don't", as a match.
 var startingPat = / [[{'"\/]/g;
@@ -144,6 +147,12 @@ function wrapper(error, ctx) {
         // error.message, so change that too
         var lines = error.stack.split('\n');
         lines[0] = lines[0].split(':')[0] + ': ' + error.message;
+
+        for (var i = 1; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/(\/node_modules\/)([^\/]+)/g,
+                                        '$1' + markStyle + '$2' + restoreMarkStyle);
+        }
+
         error.stack = lines.join('\n');
     }
 }
@@ -183,6 +192,15 @@ highlight.setStyles = function(highlight, restore, pattern) {
     }
     if (pattern) {
         stylePat = pattern;
+    }
+};
+
+highlight.setMarkStyles = function(mark, restoreMark) {
+    if (mark) {
+        markStyle = mark;
+    }
+    if (restoreMark) {
+        restoreMarkStyle = restoreMark;
     }
 };
 
