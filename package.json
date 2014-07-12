@@ -1,6 +1,6 @@
 {
   "name": "chai-highlight",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Chai.js plugin to highlight values in error messages Chai generates",
   "author": "Feng Qiu <feng@ban90.com>",
   "license": "MIT",
